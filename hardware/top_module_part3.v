@@ -15,16 +15,20 @@
 
 
 module top_module_part3(
-    input clk,
-    input rst,
-    input [3:0] row,    // keypad
-    output [3:0] col,   // keypad
-    input stop,
-    input show,
-    output correct,     // Green LED
-    output closer,      // Red LED
-    output farther      // Blue LED
-    );
+input  clk,
+input  rst, 
+input [3:0] row,
+output [3:0] col,
+output  c,
+output [6:0] segment,
+input stop,
+input show,
+output correct,
+output closer,
+output farther
+);
+  
+//main 
 wire[3:0] decode_out;
 wire[3:0] pulse_out;
 wire[3:0] seg_in;
@@ -182,8 +186,10 @@ end
 assign farther = (curr_diff && (next_diff < curr_diff)) ? 1'b1 : 1'b0; //blue
 assign closer = (curr_diff && (next_diff > curr_diff)) ? 1'b1 : 1'b0;//red
 assign correct = (decode_out == target_number) ? 1'b1 : 1'b0;
-assign seg_in = seg_inreg;
+//assign seg_in = seg_inreg;
 assign c = (count_enable) ? 1'b0 : 1'b1;
 assign segment = (count_enable) ? seg_count : seg_any;
 assign seg_any = (!key_sel) ? seg_keypad1 : seg_keypad2;
+
+
 endmodule
